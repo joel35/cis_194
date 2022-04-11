@@ -162,10 +162,11 @@ checkEx4 = [
 type Peg = String 
 type Move = (Peg, Peg)
 hanoi :: Integer -> Peg -> Peg -> Peg -> [Move]
-hanoi x a b c
-    | x == 0    = []
-    | x == 1    = [(a, b)]
-    | otherwise = oneMove a b c ++ hanoi (x-1) a b c
-
-oneMove :: Peg -> Peg -> Peg -> [Move]
-oneMove a b c = [(a, c), (a, b), (c, b)]
+hanoi 0 _ _ _ = []
+hanoi x a b c = 
+    let
+        step1moves = hanoi (n-1) a c b
+        step2move  = (a, b)
+        step3moves = hanoi (n-1) c b a
+    in
+        step1moves ++ [step2move] ++ step3moves
